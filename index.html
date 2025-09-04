@@ -3,115 +3,388 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Pinzyu Official - Payment</title>
+  <title>Payment - Pinzyu Official</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Segoe UI', sans-serif;
+      font-family: 'Poppins', sans-serif;
     }
 
+    /* === Body dengan background === */
     body {
-      background: url('https://pomf2.lain.la/f/zxqx6bwd.jpeg') no-repeat center center fixed;
+      background: url('https://files.catbox.moe/2hyc1j.jpeg') no-repeat center center fixed;
       background-size: cover;
-      color: #fff;
-      text-align: center;
-      padding: 20px;
-      animation: fadeIn 2s ease-in-out;
+      color: #333;
+      overflow-x: hidden;
+      position: relative;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    .logo {
-      width: 150px;
-      margin: 20px auto;
-    }
-
-    .section {
-      background: rgba(0, 0, 0, 0.6);
-      border-radius: 20px;
-      padding: 25px;
-      margin: 20px auto;
-      max-width: 500px;
-      box-shadow: 0 0 20px rgba(255,255,255,0.2);
-    }
-
-    .section img {
-      width: 70px;
-      margin-bottom: 10px;
-    }
-
-    .qr {
+    /* Overlay */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
       width: 100%;
-      max-width: 250px;
-      border-radius: 12px;
-      margin-top: 10px;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.75);
+      z-index: -1;
     }
 
-    .notice {
-      color: #ffd700;
+    header {
+      padding: 2rem 1rem;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(255,255,255,0.4);
+      animation: fadeInDown 1s ease;
+      border-radius: 0 0 1rem 1rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    /* Logo Style */
+    .logo {
+      max-width: 120px;
+      margin: 0 auto 1rem;
+      display: block;
+      animation: fadeIn 1.2s ease;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 600;
+      color: #2c3e50;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      padding: 2rem;
+      animation: fadeInUp 1.2s ease;
+    }
+
+    .card {
+      position: relative;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 1rem;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+      padding: 1rem;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+      border: 1px solid rgba(255,255,255,0.7);
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 6px;
+      width: 100%;
+      transition: background 0.3s ease;
+      opacity: 0.3;
+    }
+
+    .card:hover::before,
+    .card:active::before {
+      opacity: 1;
+    }
+
+    .card img {
+      width: 60px;
+      margin-bottom: 0.8rem;
+    }
+
+    .card h2 {
+      font-size: 1rem;
+      margin-bottom: 0.3rem;
+      color: #34495e;
+    }
+
+    .card p {
+      font-size: 0.9rem;
+      color: #777;
+    }
+
+    /* Warna garis atas per metode */
+    .card.qris::before { background: #e74c3c; }
+    .card.dana::before { background: #3498db; }
+    .card.ovo::before { background: #9b59b6; }
+    .card.gopay::before { background: #1abc9c; }
+
+    /* Hover Background */
+    .card.qris:hover { background: rgba(255, 235, 235, 0.9); }
+    .card.dana:hover { background: rgba(232, 241, 255, 0.9); }
+    .card.ovo:hover { background: rgba(243, 232, 255, 0.9); }
+    .card.gopay:hover { background: rgba(230, 247, 248, 0.9); }
+
+    /* === Laporan Bukti Transfer === */
+    .report-section {
+      text-align: center;
+      padding: 2rem 1rem;
+      margin: 1.5rem auto;
+      max-width: 500px;
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: 1rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      backdrop-filter: blur(8px);
+      animation: fadeInUp 1.5s ease;
+    }
+
+    .report-section p {
+      font-size: 0.95rem;
+      color: #555;
+      margin-bottom: 1rem;
+    }
+
+    .report-btn {
+      display: inline-block;
+      padding: 0.8rem 1.6rem;
+      background: #25d366;
+      color: white;
+      font-size: 1rem;
       font-weight: bold;
-      margin-top: 25px;
-      font-size: 1em;
+      border: none;
+      border-radius: 0.7rem;
+      text-decoration: none;
+      transition: transform 0.2s ease, background 0.3s ease;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     }
 
-    .footer {
-      margin-top: 50px;
-      font-size: 0.9em;
-      color: #ccc;
+    .report-btn:hover {
+      background: #1ebe5c;
+      transform: scale(1.05);
     }
 
-    h2 {
-      margin-top: 10px;
-      margin-bottom: 5px;
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      background: rgba(255, 255, 255, 0.85);
+      font-weight: bold;
+      animation: fadeIn 2s ease;
+      color: #555;
+      border-top: 1px solid rgba(255,255,255,0.4);
+      backdrop-filter: blur(6px);
+      border-radius: 1rem 1rem 0 0;
     }
 
-    p {
-      margin: 5px 0;
+    /* Popup */
+    .popup {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.6);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      backdrop-filter: blur(4px);
     }
+    .popup-content {
+      background: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      text-align: center;
+      max-width: 90%;
+      animation: fadeInUp 0.5s ease;
+      position: relative;
+    }
+    .popup-content img {
+      max-width: 340px;
+      margin-bottom: 1rem;
+      border-radius: 1rem;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    .popup-content img:hover { transform: scale(1.05); }
+
+    /* Tombol Salin */
+    .copy-btn {
+      background: #3498db;
+      color: white;
+      border: none;
+      padding: 0.5rem 1.2rem;
+      margin-top: 1rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: transform 0.2s ease, background 0.3s ease;
+    }
+    .copy-btn:hover {
+      background: #2980b9;
+      transform: scale(1.05);
+    }
+
+    /* Notifikasi tersalin */
+    .copy-notice {
+      position: absolute;
+      top: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #2ecc71;
+      color: white;
+      padding: 0.3rem 0.8rem;
+      border-radius: 0.5rem;
+      font-size: 0.8rem;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .copy-notice.show { opacity: 1; }
+
+    .close-btn {
+      margin-top: 1rem;
+      background: #e74c3c;
+      border: none;
+      color: white;
+      padding: 0.4rem 1rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    .close-btn:hover { background: #c0392b; }
+
+    /* Animations */
+    @keyframes fadeInDown {
+      0% { opacity: 0; transform: translateY(-20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
   </style>
 </head>
 <body>
+  <!-- Background Sound -->
+  <audio id="bg-sound" autoplay loop>
+    <source src="https://voca.ro/11fUMTlHL1BR" type="audio/mpeg">
+    Browser Anda tidak mendukung elemen audio.
+  </audio>
 
-  <img src="https://pomf2.lain.la/f/gpa25st5.png" alt="Pinzyu Logo" class="logo" />
+  <header>
+    <!-- Logo -->
+    <img src="https://files.catbox.moe/ntcjt3.png" alt="Pinzyu Official Logo" class="logo">
+    <h1>Selamat Datang Di Website Payment Pinzyu Official</h1>
+    <p>Pilih metode pembayaran favorit Anda</p>
+  </header>
 
-  <div class="section">
-    <img src="https://files.catbox.moe/lgzfl0.png" alt="DANA Logo" />
-    <h2>DANA</h2>
-    <p>0852-2655-2283</p>
-    <p>A/N: ALVIN ANDRIANTO</p>
+  <div class="container">
+    <!-- QRIS -->
+    <div class="card qris" onclick="showPopup('https://files.catbox.moe/70d4ct.png', 'Scan QRIS berikut untuk membayar')">
+      <img src="https://files.catbox.moe/n1fx91.png" alt="QRIS">
+      <h2>QRIS</h2>
+      <p>Pembayaran universal via QR</p>
+    </div>
+
+    <!-- Dana -->
+    <div class="card dana" onclick="showPopup('dana')">
+      <img src="https://files.catbox.moe/lgzfl0.png" alt="Dana">
+      <h2>Dana</h2>
+      <p>Pembayaran instan & mudah</p>
+    </div>
+
+    <!-- OVO -->
+    <div class="card ovo" onclick="showPopup('ovo')">
+      <img src="https://files.catbox.moe/8iqwo5.png" alt="OVO">
+      <h2>OVO</h2>
+      <p>Transaksi praktis & aman</p>
+    </div>
+
+    <!-- GoPay -->
+    <div class="card gopay" onclick="showPopup('gopay')">
+      <img src="https://files.catbox.moe/0j0khz.png" alt="Gopay">
+      <h2>Gopay</h2>
+      <p>Pembayaran fleksibel dari GoTo</p>
+    </div>
   </div>
 
-  <div class="section">
-    <img src="https://files.catbox.moe/9zv0ei.png" alt="GOPAY Logo" />
-    <h2>GOPAY</h2>
-    <p>0852-2655-2283</p>
-    <p>A/N: BELUM PREMIUM</p>
+  <!-- Laporan Bukti Transfer -->
+  <div class="report-section">
+    <p>Bukti Transaksi Bisa Dikirim Ke Owner Untuk Menghindari Penipuan / Scamer</p>
+    <a href="https://wa.me/c/6285226552283" target="_blank" class="report-btn">WhatsApp Owner</a>
   </div>
 
-  <div class="section">
-    <img src="https://files.catbox.moe/4ktdpn.png" alt="OVO Logo" />
-    <h2>OVO</h2>
-    <p>0852-2655-2283</p>
-    <p>A/N: BELUM PREMIUM</p>
+  <!-- Popup -->
+  <div class="popup" id="popup">
+    <div class="popup-content">
+      <div class="copy-notice" id="copy-notice">Tersalin!</div>
+      <div id="popup-image"></div>
+      <p id="popup-text"></p>
+      <button class="copy-btn" id="copy-btn" style="display:none;">Salin</button>
+      <br>
+      <button class="close-btn" onclick="closePopup()">Tutup</button>
+    </div>
   </div>
 
-  <div class="section">
-    <h2>QRIS</h2>
-    <img src="https://pomf2.lain.la/f/f2a2p4ph.jpg" alt="QRIS" class="qr" />
-  </div>
+  <footer>
+    &copy; 𝟕𝟎𝟓 𝐏𝐈𝐍𝐙𝐘𝐔 𝐎𝐅𝐅𝐈𝐂𝐈𝐀𝐋
+  </footer>
 
-  <div class="notice">
-    ⚠️ MOHON DI CEK NAMA TUJUAN DAN KIRIM BUKTI TRANSFER UNTUK MENGHINDARI PENIPUAN / SCAMER ⚠️
-  </div>
+  <script>
+    function showPopup(typeOrUrl, text) {
+      const popup = document.getElementById('popup');
+      const popupImage = document.getElementById('popup-image');
+      const popupText = document.getElementById('popup-text');
+      const copyBtn = document.getElementById('copy-btn');
 
-  <div class="footer">
-    © COPYRIGHT BY PINZYU OFFICIAL 🕊️
-  </div>
+      popupImage.innerHTML = '';
+      copyBtn.style.display = 'none';
 
+      // Menentukan konten popup berdasarkan metode
+      if (typeOrUrl === 'dana') {
+        const nomor = '0852-2655-2283';
+        popupText.innerHTML = `Nomor Dana: ${nomor}<br>A / N : ALVIN ANDRIANTO`;
+        copyBtn.style.display = 'inline-block';
+        copyBtn.setAttribute('data-number', nomor);
+      } else if (typeOrUrl === 'ovo') {
+        const nomor = '0852-2655-2283';
+        popupText.innerHTML = `Nomor OVO: ${nomor}<br>A / N : BELUM PREMIUM JIR`;
+        copyBtn.style.display = 'inline-block';
+        copyBtn.setAttribute('data-number', nomor);
+      } else if (typeOrUrl === 'gopay') {
+        const nomor = '0852-2655-2283';
+        popupText.innerHTML = `Nomor Gopay: ${nomor}<br>A / N : BELUM PREMIUM JIR`;
+        copyBtn.style.display = 'inline-block';
+        copyBtn.setAttribute('data-number', nomor);
+      } else if (typeOrUrl && text) {
+        popupImage.innerHTML = `<a href="${typeOrUrl}" download><img src="${typeOrUrl}" alt="QR"></a>`;
+        popupText.innerHTML = text.replace(/\n/g, "<br>");
+      }
+
+      popup.style.display = 'flex';
+    }
+
+    function closePopup() {
+      document.getElementById('popup').style.display = 'none';
+    }
+
+    // Fungsi salin nomor
+    document.getElementById('copy-btn').addEventListener('click', function() {
+      const number = this.getAttribute('data-number');
+      navigator.clipboard.writeText(number).then(() => {
+        const notice = document.getElementById('copy-notice');
+        notice.classList.add('show');
+        setTimeout(() => {
+          notice.classList.remove('show');
+        }, 1500);
+      });
+    });
+
+    // Atasi autoplay di browser yang memblokir suara
+    document.addEventListener('click', function() {
+      const audio = document.getElementById('bg-sound');
+      if (audio.paused) {
+        audio.play().catch(err => console.log("Autoplay diblokir:", err));
+      }
+    }, { once: true });
+  </script>
 </body>
-</html>
+  </html>
