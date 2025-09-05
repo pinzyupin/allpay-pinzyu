@@ -125,6 +125,52 @@
     .card.ovo:hover { background: rgba(243, 232, 255, 0.9); }
     .card.gopay:hover { background: rgba(230, 247, 248, 0.9); }
 
+    /* === Section Informasi === */
+    .info-section {
+      text-align: center;
+      padding: 2rem 1rem;
+      margin: 1.5rem auto;
+      max-width: 500px;
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: 1rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      backdrop-filter: blur(8px);
+      animation: fadeInUp 1.5s ease;
+    }
+
+    .info-section p {
+      font-size: 0.95rem;
+      color: #555;
+      margin-bottom: 1rem;
+    }
+
+    .channel-btn {
+      display: inline-block;
+      padding: 0.8rem 1.6rem;
+      background: #007bff;
+      color: white;
+      font-size: 1rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 0.7rem;
+      text-decoration: none;
+      transition: transform 0.2s ease, background 0.3s ease;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      animation: pulse 2s infinite;
+    }
+
+    .channel-btn:hover {
+      background: #0056b3;
+      transform: scale(1.05);
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
     /* === Laporan Bukti Transfer === */
     .report-section {
       text-align: center;
@@ -306,6 +352,12 @@
     </div>
   </div>
 
+  <!-- Channel Owner -->
+  <div class="info-section">
+    <p>Join Channel Owner Untuk Mendapatkan Informasi Tentang Produk Dan Testimoni Lainnya</p>
+    <a href="https://whatsapp.com/channel/0029VavjQJrKbYMT12DCyH0d" target="_blank" class="channel-btn">Channel Owner</a>
+  </div>
+
   <!-- Laporan Bukti Transfer -->
   <div class="report-section">
     <p>Bukti Transaksi Bisa Dikirim Ke Owner Untuk Menghindari Penipuan / Scamer</p>
@@ -387,4 +439,4 @@
     }, { once: true });
   </script>
 </body>
-  </html>
+</html>
